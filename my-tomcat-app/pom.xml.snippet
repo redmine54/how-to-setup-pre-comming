@@ -1,0 +1,34 @@
+<!--
+  my-tomcat-app/pom.xml に追記する抜粋例。
+  <build><plugins> の中にそのまま追加してください。
+-->
+<build>
+  <plugins>
+    <plugin>
+      <groupId>org.apache.maven.plugins</groupId>
+      <artifactId>maven-checkstyle-plugin</artifactId>
+      <version>3.3.1</version>
+      <configuration>
+        <!--
+          リポジトリに checkstyle.xml を置かない場合、pre-commit側の
+          scripts/java/checkstyle.sh が共通ルール(infra/pre-commit-templates
+          の configs/java/checkstyle.xml)を自動的に渡してくるため、
+          ここでの configLocation 指定は省略可能。
+          プロジェクト固有ルールを使いたい場合のみ以下を指定する。
+        -->
+        <!-- <configLocation>checkstyle.xml</configLocation> -->
+        <consoleOutput>true</consoleOutput>
+        <failOnViolation>true</failOnViolation>
+      </configuration>
+    </plugin>
+    <plugin>
+      <groupId>com.github.spotbugs</groupId>
+      <artifactId>spotbugs-maven-plugin</artifactId>
+      <version>4.8.3.1</version>
+      <configuration>
+        <effort>Max</effort>
+        <threshold>Medium</threshold>
+      </configuration>
+    </plugin>
+  </plugins>
+</build>

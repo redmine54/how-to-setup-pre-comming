@@ -1,0 +1,32 @@
+# my-springboot-vue-app/.pre-commit-config.yaml
+#
+# backend/ (SpringBoot) と frontend/ (Vue+Vite) に分かれた構成向け。
+# 実体のルールは infra/pre-commit-templates で一元管理し、ここでは
+# バージョン(rev)固定と、files: によるパスの絞り込みだけを行う。
+
+# pre-commit install 一回で pre-commit / commit-msg 両方のフックを有効化する
+default_install_hook_types: [pre-commit, commit-msg]
+
+repos:
+  - repo: https://gitlab.example.com/infra/pre-commit-templates
+    rev: v1.0.0
+    hooks:
+      - id: checkstyle
+        # backend/ 配下のjavaファイル変更時のみ実行
+        files: ^backend/.*\.java$
+
+      - id: spotbugs
+        files: ^backend/.*\.java$
+
+      - id: eslint-common
+        # frontend/ 配下のjs/ts/vueファイル変更時のみ実行
+        files: ^frontend/.*\.(js|ts|vue)$
+
+      - id: prettier-common
+        files: ^frontend/.*\.(js|ts|vue|css|scss)$
+
+      - id: gitleaks-common
+        # 機密情報検出はリポジトリ全体の差分が対象(パス絞り込みなし)
+
+      - id: commit-msg-check
+        # コミットメッセージ形式チェック(Conventional Commits)

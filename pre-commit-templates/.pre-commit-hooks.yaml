@@ -1,0 +1,50 @@
+# infra/pre-commit-templates/.pre-commit-hooks.yaml
+#
+# このファイルは「このリポジトリがどんなpre-commit hookを提供しているか」を
+# 宣言するマニフェストです。各利用プロジェクトの .pre-commit-config.yaml から
+# id を指定して参照されます。
+
+- id: checkstyle
+  name: Checkstyle (共通ルール)
+  description: 全社共通のJavaコーディング規約チェック
+  entry: scripts/java/checkstyle.sh
+  language: script
+  files: \.java$
+  pass_filenames: false
+
+- id: spotbugs
+  name: SpotBugs (共通ルール)
+  description: 全社共通のJavaバグパターン検出
+  entry: scripts/java/spotbugs.sh
+  language: script
+  files: \.java$
+  pass_filenames: false
+
+- id: eslint-common
+  name: ESLint (共通ルール)
+  description: 全社共通のJS/TS/Vue Lintルール
+  entry: scripts/node/eslint.sh
+  language: script
+  files: \.(js|ts|vue)$
+
+- id: prettier-common
+  name: Prettier (共通ルール)
+  description: 全社共通のフォーマットルール
+  entry: scripts/node/prettier.sh
+  language: script
+  files: \.(js|ts|vue|css|scss)$
+
+- id: gitleaks-common
+  name: gitleaks (機密情報検出)
+  description: ステージング済みの差分に機密情報(APIキー・パスワード等)が含まれていないかチェック
+  entry: scripts/common/gitleaks.sh
+  language: script
+  pass_filenames: false
+  # 特定の拡張子に限定せず、変更があれば常に実行する
+
+- id: commit-msg-check
+  name: Commit Message Check (Conventional Commits)
+  description: コミットメッセージがConventional Commits形式に沿っているかチェック
+  entry: scripts/common/commit-msg-check.sh
+  language: script
+  stages: [commit-msg]

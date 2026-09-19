@@ -1,0 +1,20 @@
+# my-tomcat-app/.pre-commit-config.yaml
+#
+# リポジトリ直下に pom.xml がある、単純なMaven/Java構成向け。
+# (backend/frontend のような分割はなし)
+#
+# checkstyle.sh / spotbugs.sh は JAVA_PROJECT_DIR が未指定の場合、
+# 「backend/pom.xml があればそちら、なければカレントディレクトリ」を
+# 自動検出する仕組みになっているため、このプロジェクトのように
+# ルート直下に pom.xml がある構成ではそのまま追加設定なしで動作する。
+
+default_install_hook_types: [pre-commit, commit-msg]
+
+repos:
+  - repo: https://gitlab.example.com/infra/pre-commit-templates
+    rev: v1.0.0
+    hooks:
+      - id: checkstyle
+      - id: spotbugs
+      - id: gitleaks-common
+      - id: commit-msg-check

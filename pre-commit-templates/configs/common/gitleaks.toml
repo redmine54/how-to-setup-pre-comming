@@ -1,0 +1,18 @@
+# infra/pre-commit-templates/configs/common/gitleaks.toml
+#
+# 全社共通のgitleaksルール。gitleaks標準の検出ルール(useDefault = true)に
+# 加えて、誤検知しやすいテストコード等を除外している。
+
+title = "全社共通 gitleaks 設定"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "テストコード内のダミー認証情報等を除外"
+paths = [
+  '''.*/test/.*''',
+  '''.*/tests/.*''',
+  '''.*/__tests__/.*''',
+  '''.*\.spec\.(js|ts)$''',
+]

@@ -1,0 +1,30 @@
+# my-python-app/.pre-commit-config.yaml
+#
+# Lintツール自体はpre-commit公式のrepoをそのまま使い、
+# ルール(pyproject.toml)は infra/pre-commit-templates から
+# コピーして使う運用(README参照)。
+# gitleaks/commit-msg-checkのみ、共通リポジトリのhookを直接参照する。
+
+default_install_hook_types: [pre-commit, commit-msg]
+
+repos:
+  - repo: https://github.com/psf/black
+    rev: 24.1.1
+    hooks:
+      - id: black
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+
+  - repo: https://gitlab.example.com/infra/pre-commit-templates
+    rev: v1.0.0
+    hooks:
+      - id: gitleaks-common
+      - id: commit-msg-check
