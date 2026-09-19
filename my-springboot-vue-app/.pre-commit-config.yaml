@@ -8,6 +8,18 @@
 default_install_hook_types: [pre-commit, commit-msg]
 
 repos:
+  # 汎用チェック(pre-commit公式)
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-merge-conflict
+      - id: check-added-large-files
+      - id: check-yaml
+      - id: check-json
+      - id: detect-private-key
+
   - repo: https://gitlab.example.com/infra/pre-commit-templates
     rev: v1.0.0
     hooks:
@@ -18,12 +30,18 @@ repos:
       - id: spotbugs
         files: ^backend/.*\.java$
 
+      - id: dependency-check-java
+        files: ^backend/pom\.xml$
+
       - id: eslint-common
         # frontend/ 配下のjs/ts/vueファイル変更時のみ実行
         files: ^frontend/.*\.(js|ts|vue)$
 
       - id: prettier-common
         files: ^frontend/.*\.(js|ts|vue|css|scss)$
+
+      - id: audit-ci-node
+        files: ^frontend/package(-lock)?\.json$
 
       - id: gitleaks-common
         # 機密情報検出はリポジトリ全体の差分が対象(パス絞り込みなし)

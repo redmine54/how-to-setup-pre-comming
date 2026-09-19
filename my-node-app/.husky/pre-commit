@@ -1,9 +1,17 @@
 npx lint-staged
 
+# 汎用チェック(マージコンフリクトマーカー・秘密鍵・大容量ファイル)
+bash .husky-scripts/generic-checks.sh
+
 # 機密情報検出(gitleaks本体がインストール済みであることが前提)
 if command -v gitleaks >/dev/null 2>&1; then
   gitleaks protect --staged --redact -v --config .gitleaks-common.toml
 else
   echo "[gitleaks] gitleaksコマンドが見つかりません。README/SETUP_PRECOMMIT.mdを確認してください。"
   exit 1
+fi
+
+# npm依存パッケージの既知脆弱性検出(package.json / package-lock.jsonが変更された場合のみ)
+if git diff --cached --name-only | grep -qE '^package(-lock)?\.json$'; then
+  npx audit-ci --config .audit-ci.common.json
 fi

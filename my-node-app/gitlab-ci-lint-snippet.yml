@@ -21,6 +21,8 @@ lint:
     - npx eslint --config .eslintrc.common.cjs .
     - npx prettier --check --config .prettierrc.common.json .
     - gitleaks detect --source . --redact -v --config .gitleaks-common.toml
+    - bash .husky-scripts/generic-checks.sh
+    - npx audit-ci --config .audit-ci.common.json
 
 commit-msg-lint:
   stage: lint

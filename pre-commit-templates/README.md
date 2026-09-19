@@ -13,6 +13,32 @@ SpringBoot+Vue、Tomcat+Java、Python、Node.js の各プロジェクトから�
 | `prettier-common` | JS/TS/Vue/CSS | フォーマット(自動修正あり) |
 | `gitleaks-common` | 全ファイル | ステージング済み差分の機密情報(APIキー・パスワード等)検出 |
 | `commit-msg-check` | コミットメッセージ | Conventional Commits形式チェック(commitlint相当、Node.js不要) |
+| `dependency-check-java` | Java(pom.xml) | OWASP Dependency-Checkによる依存ライブラリの既知脆弱性(CVE)検出 |
+| `audit-ci-node` | Node.js(package.json) | audit-ciによるnpm依存パッケージの既知脆弱性検出 |
+
+## 汎用チェック(pre-commit公式repoの利用を推奨)
+
+`trailing-whitespace`、`check-merge-conflict`、`detect-private-key`、`check-added-large-files`等の
+基礎的なチェックは、本リポジトリで独自に用意せず、**pre-commit公式の`pre-commit-hooks`リポジトリを
+直接利用する**ことを推奨する(既にメンテナンスされている公式ツールを再実装する必要がないため)。
+
+\`\`\`yaml
+# 利用側 .pre-commit-config.yaml に追記する例
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-merge-conflict
+      - id: check-added-large-files
+      - id: check-yaml
+      - id: detect-private-key
+\`\`\`
+
+**例外**: Node.js単体プロジェクト(Husky運用)は、pre-commitフレームワーク(Python製)を
+導入しない設計方針のため、上記の代わりに本リポジトリの`scripts/common/generic-checks.sh`
+(bashのみで実装した簡易版)を利用する。詳細はNode.jsプロジェクトの`SETUP_PRECOMMIT.md`を参照。
 
 ### gitleaks-common の前提条件
 

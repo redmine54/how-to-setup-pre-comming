@@ -22,9 +22,16 @@ curl -o .prettierrc.common.json \
 curl -o .gitleaks-common.toml \
   "${TEMPLATE_REPO}/-/raw/${TEMPLATE_REV}/configs/common/gitleaks.toml"
 
+curl -o .audit-ci.common.json \
+  "${TEMPLATE_REPO}/-/raw/${TEMPLATE_REV}/configs/node/audit-ci.common.json"
+
 mkdir -p .husky-scripts
 curl -o .husky-scripts/commit-msg-check.sh \
   "${TEMPLATE_REPO}/-/raw/${TEMPLATE_REV}/scripts/common/commit-msg-check.sh"
 chmod +x .husky-scripts/commit-msg-check.sh
 
-echo "ESLint/Prettier/gitleaks/commit-msg-checkの共通ルールを ${TEMPLATE_REV} の内容で更新しました。"
+curl -o .husky-scripts/generic-checks.sh \
+  "${TEMPLATE_REPO}/-/raw/${TEMPLATE_REV}/scripts/common/generic-checks.sh"
+chmod +x .husky-scripts/generic-checks.sh
+
+echo "ESLint/Prettier/gitleaks/commit-msg-check/audit-ci/generic-checksの共通ルールを ${TEMPLATE_REV} の内容で更新しました。"

@@ -48,3 +48,19 @@
   entry: scripts/common/commit-msg-check.sh
   language: script
   stages: [commit-msg]
+
+- id: dependency-check-java
+  name: OWASP Dependency-Check (Java)
+  description: Maven依存ライブラリの既知脆弱性(CVE)を検出
+  entry: scripts/java/dependency-check.sh
+  language: script
+  pass_filenames: false
+  files: pom\.xml$
+
+- id: audit-ci-node
+  name: audit-ci (Node.js)
+  description: npm依存パッケージの既知脆弱性を検出
+  entry: scripts/node/audit-ci.sh
+  language: script
+  pass_filenames: false
+  files: package(-lock)?\.json$

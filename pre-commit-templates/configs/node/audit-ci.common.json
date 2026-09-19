@@ -1,0 +1,7 @@
+{
+  "//": "全社共通のaudit-ci設定。moderate以上の脆弱性が見つかった場合に失敗とする。",
+  "moderate": true,
+  "allowlist": [],
+  "report-type": "important",
+  "retry-count": 5
+}
